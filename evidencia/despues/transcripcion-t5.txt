@@ -1,0 +1,15 @@
+# Evidencia T5 — permisos por ruta (matriz RBAC)
+
+Fecha: 2026-10-24
+
+| Petición | Rol | Resultado |
+|---|---|---|
+| DELETE /pacientes/{id} | recepcionista | 403 · vista "Acceso denegado" |
+| GET /pacientes/create | recepcionista | 200 |
+| POST /citas | odontólogo | 403 · vista "Acceso denegado" |
+| GET /pacientes/create | odontólogo | 403 |
+| GET /agenda | odontólogo | 200 |
+| GET /pacientes/create | administrador | 200 |
+
+El paciente Irene Mayta seguía existiendo después del DELETE de la recepcionista (SI).
+La matriz que produce estos resultados está en config/permisos.php.
