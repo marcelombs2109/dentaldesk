@@ -178,24 +178,30 @@
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
         </li>
+        @can('ver_agenda')
         <li class="nav-item">
             <a href="{{ route('agenda.index') }}"
                class="nav-link {{ request()->routeIs('agenda.*') ? 'active' : '' }}">
                 <i class="bi bi-calendar3"></i> Agenda
             </a>
         </li>
+        @endcan
+        @can('crear_cita')
         <li class="nav-item">
             <a href="{{ route('citas.create') }}"
                class="nav-link {{ request()->routeIs('citas.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> Nueva Cita
             </a>
         </li>
+        @endcan
+        @can('ver_pacientes')
         <li class="nav-item">
             <a href="{{ route('pacientes.index') }}"
                class="nav-link {{ request()->routeIs('pacientes.*') ? 'active' : '' }}">
                 <i class="bi bi-people"></i> Pacientes
             </a>
         </li>
+        @endcan
     </ul>
 </nav>
 

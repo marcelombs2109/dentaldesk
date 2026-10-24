@@ -51,14 +51,19 @@
                 </ul>
 
                 <div class="d-flex flex-column gap-2 mt-3">
+                    @can('crear_cita')
                     <a href="{{ route('citas.create', ['paciente_id' => $paciente->id]) }}"
                        class="btn btn-primary">
                         <i class="bi bi-plus-circle me-2"></i>Agendar cita
                     </a>
+                    @endcan
+                    @can('modificar_paciente')
                     <a href="{{ route('pacientes.edit', $paciente) }}"
                        class="btn btn-outline-primary">
                         <i class="bi bi-pencil me-2"></i>Editar datos
                     </a>
+                    @endcan
+                    @can('borrar_paciente')
                     <form method="POST" action="{{ route('pacientes.destroy', $paciente) }}"
                           onsubmit="return confirm('¿Eliminar a {{ $paciente->nombre_completo }}?')">
                         @csrf
@@ -67,6 +72,7 @@
                             <i class="bi bi-trash me-2"></i>Eliminar paciente
                         </button>
                     </form>
+                    @endcan
                 </div>
             </div>
         </div>

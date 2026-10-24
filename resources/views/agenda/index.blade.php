@@ -31,9 +31,11 @@
             <input type="date" name="fecha" value="{{ $fecha }}" class="form-control form-control-sm flex-grow-1">
             <button class="btn btn-primary btn-sm px-3">Ir</button>
         </form>
+        @can('crear_cita')
         <a href="{{ route('citas.create') }}" class="btn btn-success btn-sm flex-shrink-0">
             <i class="bi bi-plus-circle me-1"></i>Nueva
         </a>
+        @endcan
     </div>
 
     {{-- Fila 3: leyenda --}}

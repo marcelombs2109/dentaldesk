@@ -66,6 +66,7 @@
                 </div>
 
                 <!-- Cambiar estado -->
+                @can('cambiar_estado_cita')
                 <div class="border-top pt-4">
                     <div class="fw-semibold mb-3">Cambiar estado de la cita</div>
                     <form method="POST" action="{{ route('citas.estado', $cita) }}">
@@ -82,6 +83,7 @@
                         </div>
                     </form>
                 </div>
+                @endcan
 
             </div>
             <div class="card-footer bg-white d-flex gap-2">

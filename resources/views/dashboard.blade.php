@@ -72,15 +72,21 @@
                 <i class="bi bi-lightning me-2 text-warning"></i>Acciones rápidas
             </div>
             <div class="card-body d-flex flex-column gap-2">
+                @can('crear_cita')
                 <a href="{{ route('citas.create') }}" class="btn btn-primary">
                     <i class="bi bi-plus-circle me-2"></i>Nueva cita
                 </a>
+                @endcan
+                @can('registrar_paciente')
                 <a href="{{ route('pacientes.create') }}" class="btn btn-outline-secondary">
                     <i class="bi bi-person-plus me-2"></i>Nuevo paciente
                 </a>
+                @endcan
+                @can('ver_agenda')
                 <a href="{{ route('agenda.index') }}" class="btn btn-outline-secondary">
                     <i class="bi bi-calendar3 me-2"></i>Ver agenda de hoy
                 </a>
+                @endcan
             </div>
         </div>
     </div>

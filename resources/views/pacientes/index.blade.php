@@ -6,9 +6,11 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
     <h5 class="mb-0 fw-semibold">Listado de pacientes</h5>
-    <a href="{{ route('pacientes.create') }}" class="btn btn-primary btn-sm">
-        <i class="bi bi-person-plus me-1"></i>Nuevo paciente
-    </a>
+    @can('registrar_paciente')
+        <a href="{{ route('pacientes.create') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-person-plus me-1"></i>Nuevo paciente
+        </a>
+    @endcan
 </div>
 
 <div class="card border-0 shadow-sm mb-3">
@@ -55,10 +57,12 @@
                            class="btn btn-sm btn-outline-secondary">
                             <i class="bi bi-eye"></i>
                         </a>
+                        @can('crear_cita')
                         <a href="{{ route('citas.create', ['paciente_id' => $paciente->id]) }}"
                            class="btn btn-sm btn-primary">
                             <i class="bi bi-plus"></i>
                         </a>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -106,14 +110,19 @@
                                        class="btn btn-sm btn-outline-secondary">
                                         <i class="bi bi-eye"></i>
                                     </a>
+                                    @can('modificar_paciente')
                                     <a href="{{ route('pacientes.edit', $paciente) }}"
                                        class="btn btn-sm btn-outline-primary">
                                         <i class="bi bi-pencil"></i>
                                     </a>
+                                    @endcan
+                                    @can('crear_cita')
                                     <a href="{{ route('citas.create', ['paciente_id' => $paciente->id]) }}"
                                        class="btn btn-sm btn-primary">
                                         <i class="bi bi-plus"></i> Cita
                                     </a>
+                                    @endcan
+                                    @can('borrar_paciente')
                                     <form method="POST" action="{{ route('pacientes.destroy', $paciente) }}"
                                           onsubmit="return confirm('¿Eliminar a {{ $paciente->nombre_completo }}?')">
                                         @csrf
@@ -122,6 +131,7 @@
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
