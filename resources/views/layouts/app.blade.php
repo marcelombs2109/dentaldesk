@@ -210,15 +210,47 @@
             @yield('title', 'Dashboard')
         </h6>
     </div>
-    <span class="text-muted small">
-        <i class="bi bi-calendar2-check me-1"></i>
-        <span class="d-none d-md-inline">
+    <div class="d-flex align-items-center gap-3">
+        <span class="text-muted small d-none d-md-inline">
+            <i class="bi bi-calendar2-check me-1"></i>
             {{ \Carbon\Carbon::today()->isoFormat('dddd, D [de] MMMM [de] YYYY') }}
         </span>
-        <span class="d-md-none">
-            {{ \Carbon\Carbon::today()->isoFormat('D MMM YYYY') }}
-        </span>
-    </span>
+
+        @auth
+            <div class="dropdown">
+                <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 px-2"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    <span class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                          style="width:30px;height:30px">
+                        <i class="bi bi-person-fill"></i>
+                    </span>
+                    <span class="text-start lh-sm d-none d-sm-block">
+                        <span class="d-block small fw-semibold">{{ auth()->user()->name }}</span>
+                        <span class="d-block text-muted" style="font-size:.7rem">{{ auth()->user()->rol_etiqueta }}</span>
+                    </span>
+                    <i class="bi bi-chevron-down small text-muted"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                    <li class="px-3 py-2">
+                        <div class="fw-semibold small">{{ auth()->user()->name }}</div>
+                        <div class="text-muted" style="font-size:.75rem">{{ auth()->user()->email }}</div>
+                        <span class="badge bg-secondary mt-1">{{ auth()->user()->rol_etiqueta }}</span>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item text-danger">
+                                <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        @endauth
+    </div>
 </div>
 
 <!-- Contenido principal -->
