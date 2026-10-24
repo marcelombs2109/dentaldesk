@@ -1,0 +1,21 @@
+# Evidencia T8 — protección del webhook de Twilio
+
+Fecha: 2026-10-24 · URL: http://dentaldesk.sitios.mb/webhook/whatsapp
+
+| # | Petición | Resultado | Estado de la cita |
+|---|---|---|---|
+| 1 | POST sin cabecera X-Twilio-Signature | 403 | pendiente (sin cambios) |
+| 2 | POST con firma inválida | 403 | pendiente (sin cambios) |
+| 3 | POST firmado con From vacío | 200 | pendiente (sin cambios) |
+| 4 | POST firmado con Body «buenos días» | 200 | pendiente (sin cambios) |
+| 5 | POST firmado con Body «Sí» | 200 | confirmada |
+
+La petición 1 es idéntica a la que en el «antes» canceló la cita (ver evidencia/antes/08).
+
+## Registro en el log (R6)
+```
+local.WARNING: Webhook WhatsApp rechazado: falta la firma o el token de Twilio. {"ip":"127.0.0.1"}
+local.WARNING: Webhook WhatsApp rechazado: firma inválida. {"ip":"127.0.0.1"}
+local.INFO: Webhook WhatsApp: respuesta no reconocida, sin cambios. {"telefono":"59174272446","respuesta":"buenos días","cita_id":"a1bdd697-1865-45c5-add9-4fac412240b6"}
+local.INFO: Webhook WhatsApp: cita confirmada. {"telefono":"59174272446","respuesta":"Sí","cita_id":"a1bdd697-1865-45c5-add9-4fac412240b6","recordatorio_id":"a1bdee6a-cfd4-49ed-ba30-58a135da2040"}
+```

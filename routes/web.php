@@ -22,6 +22,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/webhook/whatsapp', [WebhookController::class, 'whatsapp'])
+    ->middleware('twilio.firma')
     ->name('webhook.whatsapp')
     ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 

@@ -52,7 +52,7 @@
     <div class="denegado-code">403</div>
     <div class="denegado-title">Acceso denegado</div>
     <p class="denegado-text">
-        Su rol no tiene permiso para realizar esta acción.
+        No tiene permiso para acceder a este recurso o realizar esta acción.
         Si cree que se trata de un error, contacte al administrador del sistema.
     </p>
 
