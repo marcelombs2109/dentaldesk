@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DentistaSeeder::class,
             ConsultorioSeeder::class,
+            UsuarioSeeder::class,
         ]);
     }
 }
