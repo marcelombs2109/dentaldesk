@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Paciente;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class PacienteController extends Controller
@@ -11,10 +13,13 @@ class PacienteController extends Controller
     {
         $busqueda = $request->get('q');
 
-        $pacientes = Paciente::when($busqueda, function ($query, $busqueda) {
-                $query->where('nombre', 'ilike', "%{$busqueda}%")
-                      ->orWhere('apellido', 'ilike', "%{$busqueda}%")
-                      ->orWhere('ci', 'ilike', "%{$busqueda}%");
+        $pacientes = $this->consultaVisiblePara($request->user())
+            ->when($busqueda, function ($query, $busqueda) {
+                $query->where(function ($sub) use ($busqueda) {
+                    $sub->where('nombre', 'ilike', "%{$busqueda}%")
+                        ->orWhere('apellido', 'ilike', "%{$busqueda}%")
+                        ->orWhere('ci', 'ilike', "%{$busqueda}%");
+                });
             })
             ->orderBy('apellido')
             ->paginate(15);
@@ -45,10 +50,15 @@ class PacienteController extends Controller
             ->with('success', "Paciente {$paciente->nombre_completo} registrado correctamente.");
     }
 
-    public function show(Paciente $paciente)
+    public function show(Request $request, Paciente $paciente)
     {
+        $this->authorize('view', $paciente);
+
         $citas = $paciente->citas()
             ->with(['dentista', 'consultorio'])
+            ->when($request->user()->esOdontologo(), function ($query) use ($request) {
+                $query->where('dentista_id', $request->user()->dentista_id);
+            })
             ->orderBy('fecha', 'desc')
             ->get();
 
@@ -62,6 +72,8 @@ class PacienteController extends Controller
 
     public function update(Request $request, Paciente $paciente)
     {
+        $this->authorize('update', $paciente);
+
         $datos = $request->validate([
             'nombre'            => 'required|string|max:100',
             'apellido'          => 'required|string|max:100',
@@ -80,6 +92,8 @@ class PacienteController extends Controller
 
     public function destroy(Paciente $paciente)
     {
+        $this->authorize('delete', $paciente);
+
         $paciente->delete(); // SoftDelete
 
         return redirect()->route('pacientes.index')
@@ -90,12 +104,34 @@ class PacienteController extends Controller
     {
         $q = $request->get('q');
 
-        $pacientes = Paciente::where('nombre', 'ilike', "%{$q}%")
-            ->orWhere('apellido', 'ilike', "%{$q}%")
-            ->orWhere('ci', 'ilike', "%{$q}%")
+        $pacientes = $this->consultaVisiblePara($request->user())
+            ->when($q, function ($query, $q) {
+                $query->where(function ($sub) use ($q) {
+                    $sub->where('nombre', 'ilike', "%{$q}%")
+                        ->orWhere('apellido', 'ilike', "%{$q}%")
+                        ->orWhere('ci', 'ilike', "%{$q}%");
+                });
+            })
             ->limit(10)
             ->get(['id', 'nombre', 'apellido', 'ci', 'telefono_whatsapp']);
 
         return response()->json($pacientes);
+    }
+
+    /**
+     * SDD-03 R1/R6: el odontólogo solo consulta pacientes que tienen
+     * al menos una cita con él. El filtro se aplica en la consulta.
+     */
+    private function consultaVisiblePara(User $user): Builder
+    {
+        $query = Paciente::query();
+
+        if ($user->esOdontologo()) {
+            $query->whereHas('citas', function ($sub) use ($user) {
+                $sub->where('dentista_id', $user->dentista_id);
+            });
+        }
+
+        return $query;
     }
 }

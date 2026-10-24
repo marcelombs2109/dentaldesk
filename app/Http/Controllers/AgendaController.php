@@ -14,10 +14,15 @@ class AgendaController extends Controller
     public function index(Request $request)
     {
         $fecha = $request->get('fecha', Carbon::today()->toDateString());
+        $user  = $request->user();
 
         $citas = Cita::with(['paciente', 'dentista', 'consultorio'])
             ->where('fecha', $fecha)
             ->whereHas('paciente')
+            ->when($user->esOdontologo(), function ($query) use ($user) {
+                // SDD-03 R3: el odontólogo solo ve su agenda.
+                $query->where('dentista_id', $user->dentista_id);
+            })
             ->orderBy('hora_inicio')
             ->get();
 

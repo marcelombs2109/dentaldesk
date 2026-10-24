@@ -62,12 +62,16 @@ class CitaController extends Controller
 
     public function show(Cita $cita)
     {
+        $this->authorize('view', $cita);
+
         $cita->load(['paciente', 'dentista', 'consultorio', 'recordatorio']);
         return view('citas.show', compact('cita'));
     }
 
     public function cambiarEstado(Request $request, Cita $cita)
     {
+        $this->authorize('update', $cita);
+
         $request->validate([
             'estado' => 'required|in:pendiente,confirmada,cancelada,atendida',
         ]);

@@ -1,0 +1,16 @@
+# Evidencia T7 — alcance de datos del odontólogo
+
+Fecha: 2026-10-24
+
+| Petición | Rol | Resultado |
+|---|---|---|
+| GET /pacientes | Dr. García | 4 pacientes propios: Andres Gomez, Jose Mendoza, andres perez, Miguel Perez |
+| GET /pacientes/{Irene Mayta} | Dr. García | 403 |
+| POST /citas/{cita de Irene}/estado | Dr. García | 403 |
+| GET /pacientes/buscar?q=Irene | Dr. García | [] |
+| GET /agenda?fecha=2026-05-10 | Dr. García | 1 cita (Miguel Perez, 10:00) |
+| GET /agenda?fecha=2026-05-10 | recepcionista | 5 citas (Irene Mayta, Miguel Perez, Tina Chambi) |
+| GET /pacientes/{Irene Mayta} | recepcionista | 200 |
+
+El filtro se aplica en la consulta (whereHas / where dentista_id) y en las
+políticas PacientePolicy y CitaPolicy, no solo en la interfaz.
