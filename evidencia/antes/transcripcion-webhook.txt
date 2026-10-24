@@ -1,0 +1,14 @@
+# Evidencia del estado ANTES — transcripción de peticiones
+
+Fecha: 2026-10-24T11:50:50-04:00
+
+## 1. Webhook sin firma de Twilio (cancela la cita de Irene Mayta, 2026-05-10 11:00)
+
+```
+$ curl -s -o /dev/null -w "%{http_code}" -X POST http://dentaldesk.sitios.mb/webhook/whatsapp \
+    -d "From=whatsapp:+59174272446" -d "Body=NO"
+200
+```
+
+Respuesta HTTP: 200
+Cuerpo: <Response></Response>
