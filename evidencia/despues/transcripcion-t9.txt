@@ -1,0 +1,16 @@
+# Evidencia T9 — recorrido final
+
+Fecha: 2026-10-24
+
+| Prueba | Resultado |
+|---|---|
+| POST /citas/{cita propia}/estado · Dr. García | 302 · la cita pasa a confirmada |
+| POST /citas/{cita ajena}/estado · Dr. García | 403 |
+| DELETE /pacientes/{id} · administrador | 302 · borrado lógico = SI |
+| Ficha de paciente propio · Dr. García | solo aparecen citas del Dr. García |
+| Matriz con ver_agenda solo para administrador · recepcionista | 403 |
+| Matriz original restaurada · recepcionista | 200 |
+| php artisan test | 5 pruebas aprobadas (10 aserciones) |
+
+El cambio de estado de la cita propia se revirtió a su valor original (cancelada)
+después de la prueba.
