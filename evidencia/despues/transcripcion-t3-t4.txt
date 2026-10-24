@@ -1,0 +1,23 @@
+# Evidencia T3/T4 — autenticación y protección de rutas
+
+Fecha: 2026-10-24T12:30:36-04:00
+
+## Rutas protegidas sin sesión
+```
+$ curl -s -o /dev/null -w '%{http_code} %{redirect_url}' http://dentaldesk.sitios.mb/pacientes
+302 http://dentaldesk.sitios.mb/login
+
+$ curl -X POST .../pacientes/a1bdd3f4-617a-4f1b-9a02-2794f21462ca -d '_method=DELETE' -d '_token=<token anónimo>'
+302 http://dentaldesk.sitios.mb/login
+```
+
+El paciente Irene Mayta sigue existiendo: SI
+
+## Webhook (sigue público, se protege en T8)
+```
+POST /webhook/whatsapp -> 200
+```
+
+## Límite de intentos
+- Intentos 1 a 5: mensaje genérico «Las credenciales no coinciden con nuestros registros.»
+- Intento 6: «Demasiados intentos fallidos. Intente nuevamente en N segundos.» (ver 03-bloqueo-intentos.png)

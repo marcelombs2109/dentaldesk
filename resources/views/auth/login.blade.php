@@ -76,7 +76,7 @@
 
 <div class="login-card shadow-lg">
     <div class="login-brand">
-        <div class="brand-icon"><i class="bi bi-tooth"></i></div>
+        <div class="brand-icon"><i class="bi bi-heart-pulse"></i></div>
         <h1>DentalDesk</h1>
         <p>Gestión de citas odontológicas</p>
         <ul>

@@ -169,7 +169,7 @@
         <i class="bi bi-x-lg"></i>
     </button>
     <div class="brand">
-        <i class="bi bi-tooth"></i> DentalDesk
+        <i class="bi bi-heart-pulse"></i> DentalDesk
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
