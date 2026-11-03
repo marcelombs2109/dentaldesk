@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Simulador de Twilio (solo para la demostración)</title>
+<style>
+  :root { --fg:#14213d; --bg:#f6f7f9; --muted:#5a6573; --red:#b3392f; --green:#2f7d4f; --line:#dde2e8; }
+  body { font-family: Arial, Helvetica, sans-serif; background:var(--bg); color:var(--fg); margin:0; padding:32px; }
+  h1 { font-size:28px; margin:0 0 8px; }
+  .nota { color:var(--muted); margin:0 0 24px; font-size:16px; max-width:900px; }
+  .fila { display:flex; gap:24px; flex-wrap:wrap; }
+  form { flex:1; min-width:380px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px; }
+  form.antes { border-top:10px solid var(--red); }
+  form.despues { border-top:10px solid var(--green); }
+  h2 { margin:0 0 16px; font-size:24px; }
+  label { display:block; font-size:15px; color:var(--muted); margin:12px 0 4px; }
+  input, select { width:100%; box-sizing:border-box; font-size:18px; padding:10px; border:1px solid var(--line); border-radius:8px; }
+  button { margin-top:20px; width:100%; font-size:20px; font-weight:700; color:#fff; border:0; border-radius:10px; padding:14px; cursor:pointer; }
+  .antes button { background:var(--red); } .despues button { background:var(--green); }
+  .ayuda { font-size:14px; color:var(--muted); margin-top:12px; }
+</style>
+</head>
+<body>
+<h1>Simulador de Twilio</h1>
+<p class="nota">Esta página solo simula una petición de Twilio al webhook del sistema, <b>sin firma</b>. No es Twilio. Se abre el resultado en una pestaña nueva.</p>
+<div class="fila">
+  <form class="antes" method="post" target="_blank" onsubmit="this.action=this.base.value.replace(/\/$/,'')+'/webhook/whatsapp'; this.From.value='whatsapp:+'+this.tel.value;">
+    <h2>ANTES · versión inicial</h2>
+    <label>Dirección del sistema</label><input name="base" value="http://dentaldesk.sitios.mb">
+    <label>Teléfono de la paciente de prueba (solo dígitos)</label><input name="tel" value="59178814560">
+    <label>Mensaje del paciente</label><select name="Body"><option>NO</option><option>SI</option></select>
+    <input type="hidden" name="From" value="">
+    <button type="submit">Enviar mensaje falso</button>
+    <p class="ayuda">Resultado esperado: respuesta vacía y la cita pasa a Cancelada.</p>
+  </form>
+  <form class="despues" method="post" target="_blank" onsubmit="this.action=this.base.value.replace(/\/$/,'')+'/webhook/whatsapp'; this.From.value='whatsapp:+'+this.tel.value;">
+    <h2>DESPUÉS · versión final</h2>
+    <label>Dirección del sistema</label><input name="base" value="http://dentaldesk.sitios.mb">
+    <label>Teléfono de la paciente de prueba (solo dígitos)</label><input name="tel" value="59178814560">
+    <label>Mensaje del paciente</label><select name="Body"><option>NO</option><option>SI</option></select>
+    <input type="hidden" name="From" value="">
+    <button type="submit">Enviar el mismo mensaje falso</button>
+    <p class="ayuda">Resultado esperado: error 403 y la cita sigue Pendiente.</p>
+  </form>
+</div>
+</body>
+</html>
